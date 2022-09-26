@@ -1,5 +1,23 @@
-const MealItemForm = () => {
-  return <form></form>;
+import Input from "../../UI/Card/Input/Input";
+import styles from "./MealItemForm.module.css";
+
+const MealItemForm = (props) => {
+  return (
+    <form className={styles.form}>
+      <Input
+        label=""
+        input={{
+          type: "number",
+          id: `amount_${props.id}`,
+          min: "1",
+          max: "5",
+          step: "1",
+          defaultValue: "1",
+        }}
+      />
+      <button>+ Add</button>
+    </form>
+  );
 };
 
 export default MealItemForm;
