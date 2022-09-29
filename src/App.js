@@ -2,22 +2,22 @@ import React, { useState } from "react";
 import Cart from "./components/Cart/Cart";
 import Header from "./components/Layout/Header";
 import Meals from "./components/Meals/Meals";
+import CartProvider from "./store/CartProvider";
 
 function App() {
   const [cartIsOpen, setCartIsOpen] = useState(false);
 
   const toggleCartHandler = () => {
-    console.log("HERE!!!");
     setCartIsOpen(!cartIsOpen);
   };
   return (
-    <React.Fragment>
-      {cartIsOpen && <Cart toggleCart={toggleCartHandler} />}
-      <Header toggleCart={toggleCartHandler} />
+    <CartProvider>
+      {cartIsOpen && <Cart onToggleCart={toggleCartHandler} />}
+      <Header onToggleCart={toggleCartHandler} />
       <main>
         <Meals />
       </main>
-    </React.Fragment>
+    </CartProvider>
   );
 }
 
