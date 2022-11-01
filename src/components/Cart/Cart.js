@@ -1,30 +1,41 @@
 import { useContext, useState } from "react";
-import CartContext from "../../store/cart-context";
+import { useSelector, useDispatch } from "react-redux";
+// import CartContext from "../../store/cart-context";
 import Modal from "../UI/Modal/Modal";
 import CartItem from "./CartItem/CartItem";
 import styles from "./Cart.module.css";
 import Checkout from "./Checkout";
 import React from "react";
+import { cartActions } from "../../store/cart-store";
 
 const Cart = (props) => {
-  const cartCtx = useContext(CartContext);
+  // const cartCtx = useContext(CartContext);
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
   const [isCheckout, setIsCheckout] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [didSubmit, setDidSubmit] = useState(false);
 
-  const totalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
-  const hasItems = cartCtx.items.length > 0;
+  const totalAmount = `$${cart.totalAmount.toFixed(2)}`;
+  const hasItems = cart.items.length > 0;
 
   const cartItemRemoveHandler = (id) => {
-    cartCtx.removeItem(id);
-  };
+    dispatch(cartActions.remove({ id }));
+    // cartCtx.removeItem(id);
+  };;
 
   const cartItemAddHandler = (item) => {
-    cartCtx.addItem({
-      ...item,
-      quantity: 1,
-    });
-  };
+    dispatch(
+      cartActions.add({
+        ...item,
+        quantity: 1,
+      })
+    );
+    // cartCtx.addItem({
+    //   ...item,
+    //   quantity: 1,
+    // });
+  };;
 
   const orderHandler = () => {
     setIsCheckout(true);
@@ -42,18 +53,19 @@ const Cart = (props) => {
         method: "POST",
         body: JSON.stringify({
           user: checkoutFormData,
-          orderItems: cartCtx.items,
+          orderItems: cart.items,
         }),
       }
     );
-    cartCtx.clearCart();
+    dispatch(cartActions.clear());
+    // cartCtx.clearCart();
     setIsSubmitting(false);
     setDidSubmit(true);
-  };
+  };;
 
   const cartItems = (
     <ul className={styles["cart-items"]}>
-      {cartCtx.items.map((cartItem) => (
+      {cart.items.map((cartItem) => (
         <CartItem
           id={cartItem.id}
           key={cartItem.id}

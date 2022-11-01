@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Cart from "./components/Cart/Cart";
 import Header from "./components/Layout/Header";
 import Meals from "./components/Meals/Meals";
-import CartProvider from "./store/CartProvider";
+// import CartProvider from "./store/CartProvider";
 
 function App() {
   const [cartIsOpen, setCartIsOpen] = useState(false);
@@ -11,13 +11,20 @@ function App() {
     setCartIsOpen(!cartIsOpen);
   };
   return (
-    <CartProvider>
+    <Fragment>
       {cartIsOpen && <Cart onToggleCart={toggleCartHandler} />}
       <Header onToggleCart={toggleCartHandler} />
       <main>
         <Meals />
       </main>
-    </CartProvider>
+    </Fragment>
+    // <CartProvider>
+    //   {cartIsOpen && <Cart onToggleCart={toggleCartHandler} />}
+    //   <Header onToggleCart={toggleCartHandler} />
+    //   <main>
+    //     <Meals />
+    //   </main>
+    // </CartProvider>
   );
 }
 

@@ -1,12 +1,14 @@
 import { useContext, useEffect, useState } from "react";
-import CartContext from "../../store/cart-context";
+import { useSelector } from "react-redux";
+// import CartContext from "../../store/cart-context";
 import CartIcon from "../Cart/CartIcon";
 import styles from "./HeaderCartButton.module.css";
 
 const HeaderCartButton = (props) => {
   const [animateBtn, setAnimateBtn] = useState(false);
-  const cartCtx = useContext(CartContext);
-  const { items } = cartCtx;
+  // const cartCtx = useContext(CartContext);
+  // const { items } = cartCtx;
+  const items = useSelector((state) => state.cart.items);
 
   const numberOfCartItems = items.reduce(
     (prevElem, curElem) => prevElem + curElem.quantity,
